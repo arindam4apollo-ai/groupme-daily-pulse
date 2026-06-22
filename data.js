@@ -1,5 +1,5 @@
 // data.js
-const embeddedCsvData = `Date	GroupMe MAU	MAU YoY	GroupMe DAU	DAU YoY	Daily New Registrations	DNR YoY	Daily Active Groups	DAG YoY	Monthly Active Groups	MAG YoY	Outbound Message Volume	OMV YoY	User Loyality Index	ULI YoY	New User Campus Registration	NUCR YoY	Verified Student WAU	VSWAU YoY	Schools with critical supply of event groups to join	Campus YoY	"Schools with critical supply of groups to join_v1
+const embeddedCsvData = `Date	GroupMe DAU	DAU YoY	GroupMe MAU	MAU YoY	Daily New Registrations	DNR YoY	Daily Active Groups	DAG YoY	Monthly Active Groups	MAG YoY	Outbound Message Volume	OMV YoY	User Loyality Index	ULI YoY	New User Campus Registration	NUCR YoY	Verified Student WAU	VSWAU YoY	Schools with critical supply of event groups to join	Campus YoY	"Schools with critical supply of groups to join_v1
 "	Critical YoY
 6/1/2026	15.7M	6.3%	37.0M	8.4%	209.9k	13.9%	0.8M	4.6%	3.8M	5.0%	287.1M	-0.3%	43.0	-1.5%	8.3k	62.11%	0.70M	-20.92%	34	9.7%	50	6.4%
 6/2/2026	16.0M	5.6%	37.0M	8.4%	213.0k	4.0%	0.8M	3.1%	3.9M	4.9%	292.6M	-1.6%	43.7	-2.3%	8.9k	59.14%	0.70M	-20.85%	36	5.9%	52	4.0%
