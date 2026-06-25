@@ -16,7 +16,6 @@
       background-color: rgba(15, 23, 42, 0.75);
       border-color: rgba(59, 130, 246, 0.4);
     }
-    /* 🌐 Premium Blurring Background Wrapper Layer simulating GroupMe Site Style */
     .bg-groupme-community {
       background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.88), rgba(3, 7, 18, 0.96)), 
                         url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop');
@@ -24,200 +23,249 @@
       background-position: center top;
       background-attachment: fixed;
     }
+    .dashboard-blurred {
+      filter: blur(12px) brightness(0.4);
+      pointer-events: none;
+      user-select: none;
+    }
   </style>
   <script src="./data.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen pb-24 selection:bg-blue-500/30 bg-groupme-community">
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-    <!-- Header Area -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center py-8 border-b border-slate-900/60 mb-8 gap-4 backdrop-blur-xs">
-      <div class="flex items-center gap-4">
-        <!-- 🎯 Official GroupMe High-Resolution Rounded Brand Icon Asset Embed -->
-        <img src="https://learn.microsoft.com/en-us/answers/media/GroupMe-AppIcon.png" 
-             alt="GroupMe Official Brand Logo" 
-             class="w-14 h-14 rounded-2xl shadow-xl shadow-blue-500/10 object-contain border border-blue-400/20" />
-        <div>
-          <h1 class="text-3xl font-extrabold tracking-tight text-white bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-            GroupMe Daily Pulse Portal
-          </h1>
-          <p class="text-sm text-slate-400 mt-0.5">Interactive Client Performance Analytics Workspace</p>
-        </div>
-      </div>
+  <!-- 🔒 SECURE LOGIN OVERLAY -->
+  <div id="login-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-xl transition-opacity duration-500">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 w-full max-w-md shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
       
-      <!-- Top Right Latest Refreshed Status Card -->
-      <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800/80 px-4 py-2 rounded-2xl shadow-xl backdrop-blur-md">
-        <div class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
-        <div class="text-xs">
-          <span class="text-slate-400 font-medium">As of Matrix Horizon:</span>
-          <span id="header-refresh-date" class="text-blue-400 font-bold ml-1">--</span>
+      <div class="flex flex-col items-center mb-8">
+        <img src="https://learn.microsoft.com/en-us/answers/media/GroupMe-AppIcon.png" alt="GroupMe Logo" class="w-16 h-16 rounded-2xl shadow-lg shadow-blue-500/20 mb-4 border border-blue-400/20">
+        <h2 class="text-xl font-bold text-white tracking-tight">Secure Portal Access</h2>
+        <p class="text-xs text-slate-400 mt-1 text-center">FY27 Objectives & KR Intelligence</p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Your Full Name</label>
+          <input type="text" id="login-name" placeholder="e.g. Jane Doe" class="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
         </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 ml-1">Team Access Code</label>
+          <input type="password" id="login-pass" placeholder="••••••••" class="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" onkeypress="if(event.key === 'Enter') attemptLogin()">
+        </div>
+        
+        <div id="login-error" class="hidden text-rose-400 text-xs font-medium bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-lg text-center mt-2">
+          Incorrect access code or missing name.
+        </div>
+
+        <button onclick="attemptLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm py-3.5 rounded-xl shadow-lg shadow-blue-500/20 transition-all mt-4">
+          Unlock Dashboard
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- Dashboard Content Area -->
-    <div id="dashboard-content" class="space-y-10">
+  <!-- MAIN DASHBOARD WRAPPER -->
+  <div id="main-dashboard-wrapper" class="dashboard-blurred transition-all duration-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
       
-      <!-- MAIN SPLIT WORKSPACE LAYER -->
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+      <!-- Header Area -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center py-8 border-b border-slate-900/60 mb-8 gap-4 backdrop-blur-xs">
+        <div class="flex items-center gap-4">
+          <img src="https://learn.microsoft.com/en-us/answers/media/GroupMe-AppIcon.png" alt="GroupMe Official Brand Logo" class="w-14 h-14 rounded-2xl shadow-xl shadow-blue-500/10 object-contain border border-blue-400/20" />
+          <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-white bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+              GroupMe Daily Pulse Portal
+            </h1>
+            <p class="text-sm text-slate-400 mt-0.5">Interactive Client Performance Analytics Workspace</p>
+          </div>
+        </div>
         
-        <!-- LEFT 3 COLS: CORE PERFORMANCE TARGETS & SUPPORTING INDICES -->
-        <div class="lg:col-span-3 flex flex-col justify-between space-y-6">
-          
-          <!-- Core Audience Performance -->
-          <div class="space-y-4">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span> Core Audience Performance <span class="text-[10px] text-slate-500 font-normal lowercase tracking-normal">(click box to explore timeline)</span>
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <!-- MAU Box -->
-              <div class="kpi-card bg-slate-900/60 border border-slate-800/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between relative overflow-hidden h-56 cursor-pointer backdrop-blur-md" data-metric="GroupMe MAU" data-color="#a855f7">
-                <div>
-                  <div class="flex justify-between items-start">
-                    <div>
-                      <p class="text-xs font-bold text-slate-300 uppercase tracking-wide">GroupMe MAU</p>
-                      <p class="text-[10px] text-purple-400/70 font-medium tracking-wide mt-0.5">(Scale: Millions of Users)</p>
-                    </div>
-                    <span id="mau-yoy" class="text-xs font-bold px-2 py-0.5 rounded-lg border">--</span>
-                  </div>
-                  <h2 id="latest-mau" class="text-4xl font-black text-white tracking-tight mt-2">--</h2>
-                </div>
-                <div class="h-16 w-full mt-auto pointer-events-none">
-                  <canvas id="mauSparkChart"></canvas>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 h-[3px] bg-purple-500/30"></div>
-              </div>
-
-              <!-- DAU Box -->
-              <div class="kpi-card bg-slate-900/60 border border-slate-800/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between relative overflow-hidden h-56 cursor-pointer backdrop-blur-md" data-metric="GroupMe DAU" data-color="#3b82f6">
-                <div>
-                  <div class="flex justify-between items-start">
-                    <div>
-                      <p class="text-xs font-bold text-slate-300 uppercase tracking-wide">GroupMe DAU</p>
-                      <p class="text-[10px] text-blue-400/70 font-medium tracking-wide mt-0.5">(Scale: Millions of Users)</p>
-                    </div>
-                    <span id="dau-yoy" class="text-xs font-bold px-2 py-0.5 rounded-lg border">--</span>
-                  </div>
-                  <h2 id="latest-dau" class="text-4xl font-black text-white tracking-tight mt-2">--</h2>
-                </div>
-                <div class="h-16 w-full mt-auto pointer-events-none">
-                  <canvas id="dauSparkChart"></canvas>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 h-[3px] bg-blue-500/30"></div>
-              </div>
-
-              <!-- New Registrations Box -->
-              <div class="kpi-card bg-slate-900/60 border border-slate-800/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between relative overflow-hidden h-56 cursor-pointer backdrop-blur-md" data-metric="Daily New Registrations" data-color="#10b981">
-                <div>
-                  <div class="flex justify-between items-start">
-                    <div>
-                      <p class="text-xs font-bold text-slate-300 uppercase tracking-wide">Daily New Registrations</p>
-                      <p class="text-[10px] text-emerald-400/70 font-medium tracking-wide mt-0.5">(Scale: Thousands of Registrations)</p>
-                    </div>
-                    <span id="reg-yoy" class="text-xs font-bold px-2 py-0.5 rounded-lg border">--</span>
-                  </div>
-                  <h2 id="latest-reg" class="text-4xl font-black text-white tracking-tight mt-2">--</h2>
-                </div>
-                <div class="h-16 w-full mt-auto pointer-events-none">
-                  <canvas id="regSparkChart"></canvas>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 h-[3px] bg-emerald-500/30"></div>
-              </div>
+        <!-- Top Right Refreshed Status & User Greeting -->
+        <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800/80 px-4 py-2 rounded-2xl shadow-xl backdrop-blur-md">
+          <div class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+          <div class="text-xs flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
+            <div>
+              <span class="text-slate-400 font-medium">As of Matrix Horizon:</span>
+              <span id="header-refresh-date" class="text-blue-400 font-bold ml-1">--</span>
+            </div>
+            <div class="hidden md:block w-px h-4 bg-slate-700"></div>
+            <div class="text-slate-300 font-medium flex items-center gap-1.5">
+              👤 <span id="active-user-name" class="text-white font-bold">Observer</span>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- Supporting Performance Indices -->
-          <div class="space-y-4 pt-2">
-            <div class="flex justify-between items-center pb-1">
+      <!-- Dashboard Content Area -->
+      <div id="dashboard-content" class="space-y-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
+          
+          <!-- LEFT 3 COLS: CORE PERFORMANCE TARGETS -->
+          <div class="lg:col-span-3 flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
               <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-slate-500"></span> Supporting Performance Indices
+                <span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span> Core Audience Performance <span class="text-[10px] text-slate-500 font-normal lowercase tracking-normal">(click box to explore timeline)</span>
               </h3>
-              <span id="refresh-date" class="text-[10px] font-bold text-slate-400 bg-slate-900/70 px-2 py-1 rounded-lg border border-slate-800/80 backdrop-blur-xs">--</span>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="kpi-card bg-slate-900/60 border border-slate-800/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between relative overflow-hidden h-56 cursor-pointer backdrop-blur-md" data-metric="GroupMe MAU" data-color="#a855f7">
+                  <div>
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <p class="text-xs font-bold text-slate-300 uppercase tracking-wide">GroupMe DAU</p>
+                        <p class="text-[10px] text-purple-400/70 font-medium tracking-wide mt-0.5">(Scale: Millions of Users)</p>
+                      </div>
+                      <span id="mau-yoy" class="text-xs font-bold px-2 py-0.5 rounded-lg border">--</span>
+                    </div>
+                    <h2 id="latest-mau" class="text-4xl font-black text-white tracking-tight mt-2">--</h2>
+                  </div>
+                  <div class="h-16 w-full mt-auto pointer-events-none">
+                    <canvas id="mauSparkChart"></canvas>
+                  </div>
+                  <div class="absolute bottom-0 left-0 right-0 h-[3px] bg-purple-500/30"></div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/60 border border-slate-800/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between relative overflow-hidden h-56 cursor-pointer backdrop-blur-md" data-metric="GroupMe DAU" data-color="#3b82f6">
+                  <div>
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <p class="text-xs font-bold text-slate-300 uppercase tracking-wide">GroupMe MAU</p>
+                        <p class="text-[10px] text-blue-400/70 font-medium tracking-wide mt-0.5">(Scale: Millions of Users)</p>
+                      </div>
+                      <span id="dau-yoy" class="text-xs font-bold px-2 py-0.5 rounded-lg border">--</span>
+                    </div>
+                    <h2 id="latest-dau" class="text-4xl font-black text-white tracking-tight mt-2">--</h2>
+                  </div>
+                  <div class="h-16 w-full mt-auto pointer-events-none">
+                    <canvas id="dauSparkChart"></canvas>
+                  </div>
+                  <div class="absolute bottom-0 left-0 right-0 h-[3px] bg-blue-500/30"></div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/60 border border-slate-800/60 p-5 rounded-2xl shadow-xl flex flex-col justify-between relative overflow-hidden h-56 cursor-pointer backdrop-blur-md" data-metric="Daily New Registrations" data-color="#10b981">
+                  <div>
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <p class="text-xs font-bold text-slate-300 uppercase tracking-wide">Daily New Registrations</p>
+                        <p class="text-[10px] text-emerald-400/70 font-medium tracking-wide mt-0.5">(Scale: Thousands of Registrations)</p>
+                      </div>
+                      <span id="reg-yoy" class="text-xs font-bold px-2 py-0.5 rounded-lg border">--</span>
+                    </div>
+                    <h2 id="latest-reg" class="text-4xl font-black text-white tracking-tight mt-2">--</h2>
+                  </div>
+                  <div class="h-16 w-full mt-auto pointer-events-none">
+                    <canvas id="regSparkChart"></canvas>
+                  </div>
+                  <div class="absolute bottom-0 left-0 right-0 h-[3px] bg-emerald-500/30"></div>
+                </div>
+              </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Daily Active Groups" data-color="#f59e0b">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Daily Active Groups (M)</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-dag" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-dag-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
-                </div>
+            <!-- Supporting Performance Indices -->
+            <div class="space-y-4 pt-2">
+              <div class="flex justify-between items-center pb-1">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                  <span class="h-1.5 w-1.5 rounded-full bg-slate-500"></span> Supporting Performance Indices
+                </h3>
+                <span id="refresh-date" class="text-[10px] font-bold text-slate-400 bg-slate-900/70 px-2 py-1 rounded-lg border border-slate-800/80 backdrop-blur-xs">--</span>
               </div>
 
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Monthly Active Groups" data-color="#ec4899">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Monthly Active Groups (M)</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-mag" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-mag-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Daily Active Groups" data-color="#f59e0b">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Daily Active Groups (M)</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-dag" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-dag-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Monthly Active Groups" data-color="#ec4899">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Monthly Active Groups (M)</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-mag" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-mag-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Outbound Message Volume" data-color="#06b6d4">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Outbound Messages (M)</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-omv" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-omv-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="User Loyality Index" data-color="#f43f5e">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">User Loyalty Index</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-uli" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-uli-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="New User Campus Registration" data-color="#6366f1">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Campus Registrations (k)</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-nucr" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-nucr-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Verified Student WAU" data-color="#14b8a6">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Verified Student WAU (M)</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-vswau" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-vswau-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Schools with critical supply of event groups to join" data-color="#f97316">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Schools w/ Event Supply</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-crit-event" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-crit-event-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
+                </div>
+
+                <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="schools_with_critical_supply_v1_fallback" data-color="#84cc16">
+                  <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Critical Group Supply v1</p>
+                  <div class="flex justify-between items-baseline mt-2">
+                    <span id="meta-crit-v1" class="text-lg font-bold text-white">--</span>
+                    <span id="meta-crit-v1-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Outbound Message Volume" data-color="#06b6d4">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Outbound Messages (M)</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-omv" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-omv-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
-                </div>
-              </div>
+          </div>
 
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="User Loyality Index" data-color="#f43f5e">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">User Loyalty Index</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-uli" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-uli-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
-                </div>
-              </div>
-
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="New User Campus Registration" data-color="#6366f1">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Campus Registrations (k)</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-nucr" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-nucr-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
-                </div>
-              </div>
-
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Verified Student WAU" data-color="#14b8a6">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Verified Student WAU (M)</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-vswau" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-vswau-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
-                </div>
-              </div>
-
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="Schools with critical supply of event groups to join" data-color="#f97316">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Schools w/ Event Supply</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-crit-event" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-crit-event-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
-                </div>
-              </div>
-
-              <div class="kpi-card bg-slate-900/50 border border-slate-800/60 p-4 rounded-xl cursor-pointer backdrop-blur-xs" data-metric="schools_with_critical_supply_v1_fallback" data-color="#84cc16">
-                <p class="text-[11px] font-medium text-slate-400 tracking-wide truncate">Critical Group Supply v1</p>
-                <div class="flex justify-between items-baseline mt-2">
-                  <span id="meta-crit-v1" class="text-lg font-bold text-white">--</span>
-                  <span id="meta-crit-v1-yoy" class="text-xs font-bold px-1.5 py-0.5 rounded">--</span>
-                </div>
+          <!-- RIGHT 1 COL: DYNAMIC SIDEBAR SUMMARY -->
+          <div class="lg:col-span-1 h-full flex flex-col">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+              💡 Key Takeaways
+            </h3>
+            <div class="bg-slate-900/80 border border-slate-800/80 p-5 rounded-2xl shadow-xl flex-1 flex flex-col justify-between backdrop-blur-md">
+              <div id="automated-insights-list" class="space-y-4 text-xs text-slate-300">
+                <div class="text-slate-500 text-center py-8 animate-pulse">Analyzing matrix metrics...</div>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- RIGHT 1 COL: DYNAMIC SIDEBAR SUMMARY -->
-        <div class="lg:col-span-1 h-full flex flex-col">
-          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-            💡 Key Takeaways
+        <!-- 🛡️ EMBEDDED INTERNAL SECURITY AUDIT LOG LAYER -->
+        <div class="pt-6 border-t border-slate-900/60">
+          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+            🛡️ Portal Entry Audit Log <span class="text-[10px] text-slate-600 font-normal tracking-normal lowercase">(stored securely in browser memory context)</span>
           </h3>
-          <div class="bg-slate-900/80 border border-slate-800/80 p-5 rounded-2xl shadow-xl flex-1 flex flex-col justify-between backdrop-blur-md">
-            <div id="automated-insights-list" class="space-y-4 text-xs text-slate-300">
-              <div class="text-slate-500 text-center py-8 animate-pulse">Analyzing matrix metrics...</div>
+          <div class="bg-slate-950/40 border border-slate-900/80 rounded-2xl p-4 max-h-36 overflow-y-auto">
+            <div id="audit-log-container" class="space-y-1.5 text-[11px] font-mono text-slate-400">
+              <!-- Logs get generated dynamically here -->
             </div>
           </div>
         </div>
 
       </div>
-
     </div>
   </div>
 
@@ -235,8 +283,68 @@
   </div>
 
   <script>
+    const MASTER_PASSWORD = "GroupMeFY27"; 
     let csvDataGlobal = [];
     let activeCharts = {};
+
+    function attemptLogin() {
+      const nameInput = document.getElementById('login-name').value.trim();
+      const passInput = document.getElementById('login-pass').value;
+      const errorMsg = document.getElementById('login-error');
+
+      if (nameInput === "" || passInput !== MASTER_PASSWORD) {
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      if (typeof window.embeddedCsvData === 'undefined') {
+        alert("Error: data.js is blocked or missing. Please ensure data.js is in the same folder.");
+        return;
+      }
+
+      errorMsg.classList.add('hidden');
+
+      // 💾 PERSIST ENTRY RECORD TO BROWSER STORAGE
+      const currentLogs = JSON.parse(localStorage.getItem('groupme_access_logs') || '[]');
+      currentLogs.push({
+        user: nameInput,
+        timestamp: new Date().toLocaleString()
+      });
+      localStorage.setItem('groupme_access_logs', JSON.stringify(currentLogs));
+      
+      // Paint access panel layout list items
+      renderAuditLogs();
+
+      // Open dashboard
+      document.getElementById('login-overlay').style.opacity = '0';
+      setTimeout(() => { document.getElementById('login-overlay').style.display = 'none'; }, 500);
+      document.getElementById('main-dashboard-wrapper').classList.remove('dashboard-blurred');
+      document.getElementById('active-user-name').innerText = nameInput;
+
+      initDashboard(window.embeddedCsvData);
+    }
+
+    function renderAuditLogs() {
+      const container = document.getElementById('audit-log-container');
+      const logs = JSON.parse(localStorage.getItem('groupme_access_logs') || '[]');
+      
+      if (logs.length === 0) {
+        container.innerHTML = `<span class="text-slate-600 italic">No access rows logged yet on this computer.</span>`;
+        return;
+      }
+      
+      // Show newest logins at the very top of the box
+      container.innerHTML = logs.reverse().map(log => `
+        <div class="flex justify-between border-b border-slate-900/30 pb-1 last:border-b-0">
+          <span class="text-slate-300 font-bold">👤 ${escapeHtml(log.user)}</span>
+          <span class="text-blue-500/80 font-medium">[Authorized Access Verified at: ${log.timestamp}]</span>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
 
     function cleanMetricValue(val) {
       if (!val) return 0;
@@ -259,62 +367,91 @@
       }
     }
 
-    function initDashboard() {
-      Papa.parse(embeddedCsvData, {
+    function initDashboard(rawTextStream) {
+      const cleanString = rawTextStream.replace(/\r/g, '');
+      
+      const normalizedCsvLines = cleanString.split('\n').map((line, idx) => {
+        if (idx === 0) return line.trim(); 
+        if (!line.includes(',') && (line.includes('\t') || line.includes(' '))) {
+          return line.trim().replace(/[\s\t]+/g, ',');
+        }
+        return line.trim();
+      }).join('\n');
+
+      Papa.parse(normalizedCsvLines, {
         header: true,
         dynamicTyping: true,
         skipEmptyLines: true,
         complete: function(results) {
-          csvDataGlobal = results.data.filter(row => row.Date);
+          csvDataGlobal = results.data.filter(row => {
+            const keys = Object.keys(row);
+            const dateKey = keys.find(k => k.trim() === 'Date');
+            return dateKey && row[dateKey];
+          });
+          
           if (csvDataGlobal.length === 0) return;
 
           const latestRow = csvDataGlobal[csvDataGlobal.length - 1];
-
           const keys = Object.keys(latestRow);
-          const critV1Key = keys.find(k => k.includes('groups to join_v1'));
-          const critEventKey = keys.find(k => k.includes('event groups to join'));
-
-          document.getElementById('header-refresh-date').innerText = latestRow.Date;
-          document.getElementById('refresh-date').innerText = "Data Date: " + latestRow.Date;
-
-          document.getElementById('latest-mau').innerText = latestRow['GroupMe MAU'] || '--';
-          const mauDir = styleYoYBadge('mau-yoy', latestRow['MAU YoY']);
-          document.getElementById('latest-dau').innerText = latestRow['GroupMe DAU'] || '--';
-          const dauDir = styleYoYBadge('dau-yoy', latestRow['DAU YoY']);
-          document.getElementById('latest-reg').innerText = latestRow['Daily New Registrations'] || '--';
-          const regDir = styleYoYBadge('reg-yoy', latestRow['DNR YoY']);
-
-          document.getElementById('meta-dag').innerText = latestRow['Daily Active Groups'] || '--';
-          styleYoYBadge('meta-dag-yoy', latestRow['DAG YoY']);
-          document.getElementById('meta-mag').innerText = latestRow['Monthly Active Groups'] || '--';
-          styleYoYBadge('meta-mag-yoy', latestRow['MAG YoY']);
-          document.getElementById('meta-omv').innerText = latestRow['Outbound Message Volume'] || '--';
-          const omvDir = styleYoYBadge('meta-omv-yoy', latestRow['OMV YoY']);
-          document.getElementById('meta-uli').innerText = String(latestRow['User Loyality Index'] || '--');
-          const uliDir = styleYoYBadge('meta-uli-yoy', latestRow['ULI YoY']);
           
-          document.getElementById('meta-nucr').innerText = latestRow['New User Campus Registration'] || '--';
-          styleYoYBadge('meta-nucr-yoy', latestRow['NUCR YoY']);
-          document.getElementById('meta-vswau').innerText = latestRow['Verified Student WAU'] || '--';
-          const wauDir = styleYoYBadge('meta-vswau-yoy', latestRow['VSWAU YoY']);
+          const dateKey = keys.find(k => k.trim() === 'Date') || 'Date';
+          const mauKey = keys.find(k => k.includes('MAU')) || 'GroupMe MAU';
+          const dauKey = keys.find(k => k.includes('DAU')) || 'GroupMe DAU';
+          const regKey = keys.find(k => k.includes('Registrations')) || 'Daily New Registrations';
+          const dagKey = keys.find(k => k.includes('Daily Active Groups')) || 'Daily Active Groups';
+          const magKey = keys.find(k => k.includes('Monthly Active Groups')) || 'Monthly Active Groups';
+          const omvKey = keys.find(k => k.includes('Message Volume')) || 'Outbound Message Volume';
+          const uliKey = keys.find(k => k.includes('Loyality Index')) || 'User Loyality Index';
+          const nucrKey = keys.find(k => k.includes('Campus Registration')) || 'New User Campus Registration';
+          const vswauKey = keys.find(k => k.includes('Student WAU')) || 'Verified Student WAU';
+          const critEventKey = keys.find(k => k.includes('event groups to join'));
+          const critV1Key = keys.find(k => k.includes('groups to join_v1'));
+
+          const mauYoY = keys.find(k => k.includes('MAU YoY')) || 'MAU YoY';
+          const dauYoY = keys.find(k => k.includes('DAU YoY')) || 'DAU YoY';
+          const regYoY = keys.find(k => k.includes('DNR YoY')) || 'DNR YoY';
+
+          document.getElementById('header-refresh-date').innerText = latestRow[dateKey];
+          document.getElementById('refresh-date').innerText = "Data Date: " + latestRow[dateKey];
+
+          document.getElementById('latest-mau').innerText = latestRow[mauKey] || '--';
+          const mauDir = styleYoYBadge('mau-yoy', latestRow[mauYoY]);
+          document.getElementById('latest-dau').innerText = latestRow[dauKey] || '--';
+          const dauDir = styleYoYBadge('dau-yoy', latestRow[dauYoY]);
+          document.getElementById('latest-reg').innerText = latestRow[regKey] || '--';
+          const regDir = styleYoYBadge('reg-yoy', latestRow[regYoY]);
+
+          document.getElementById('meta-dag').innerText = latestRow[dagKey] || '--';
+          styleYoYBadge('meta-dag-yoy', latestRow[keys.find(k => k.includes('DAG YoY'))]);
+          document.getElementById('meta-mag').innerText = latestRow[magKey] || '--';
+          styleYoYBadge('meta-mag-yoy', latestRow[keys.find(k => k.includes('MAG YoY'))]);
+          document.getElementById('meta-omv').innerText = latestRow[omvKey] || '--';
+          const omvDir = styleYoYBadge('meta-omv-yoy', latestRow[keys.find(k => k.includes('OMV YoY'))]);
+          document.getElementById('meta-uli').innerText = String(latestRow[uliKey] || '--');
+          const uliDir = styleYoYBadge('meta-uli-yoy', latestRow[keys.find(k => k.includes('ULI YoY'))]);
+          
+          document.getElementById('meta-nucr').innerText = latestRow[nucrKey] || '--';
+          styleYoYBadge('meta-nucr-yoy', latestRow[keys.find(k => k.includes('NUCR YoY'))]);
+          document.getElementById('meta-vswau').innerText = latestRow[vswauKey] || '--';
+          const wauDir = styleYoYBadge('meta-vswau-yoy', latestRow[keys.find(k => k.includes('VSWAU YoY'))]);
 
           document.getElementById('meta-crit-event').innerText = critEventKey ? String(latestRow[critEventKey] || '--') : '--';
-          styleYoYBadge('meta-crit-event-yoy', latestRow['Campus YoY']);
+          styleYoYBadge('meta-crit-event-yoy', latestRow[keys.find(k => k.includes('Campus YoY'))]);
           document.getElementById('meta-crit-v1').innerText = critV1Key ? String(latestRow[critV1Key] || '--') : '--';
-          styleYoYBadge('meta-crit-v1-yoy', latestRow['Critical YoY']);
+          styleYoYBadge('meta-crit-v1-yoy', latestRow[keys.find(k => k.includes('Critical YoY'))]);
 
           generateDynamicSimpleInsights(latestRow, {
-            mau: { val: latestRow['GroupMe MAU'], yoy: latestRow['MAU YoY'], dir: mauDir },
-            dau: { val: latestRow['GroupMe DAU'], yoy: latestRow['DAU YoY'], dir: dauDir },
-            reg: { val: latestRow['Daily New Registrations'], yoy: latestRow['DNR YoY'], dir: regDir },
-            wau: { val: latestRow['Verified Student WAU'], yoy: latestRow['VSWAU YoY'], dir: wauDir },
-            omv: { val: latestRow['Outbound Message Volume'], yoy: latestRow['OMV YoY'], dir: omvDir }
+            mau: { val: latestRow[mauKey], yoy: latestRow[mauYoY], dir: mauDir },
+            dau: { val: latestRow[dauKey], yoy: latestRow[dauYoY], dir: dauDir },
+            reg: { val: latestRow[regKey], yoy: latestRow[regYoY], dir: regDir },
+            wau: { val: latestRow[vswauKey], yoy: latestRow[keys.find(k => k.includes('VSWAU YoY'))], dir: wauDir },
+            omv: { val: latestRow[omvKey], yoy: latestRow[keys.find(k => k.includes('OMV YoY'))], dir: omvDir }
           });
 
-          const dates = csvDataGlobal.map(row => row.Date);
-          const mauData = csvDataGlobal.map(row => cleanMetricValue(row['GroupMe MAU']));
-          const dauData = csvDataGlobal.map(row => cleanMetricValue(row['GroupMe DAU']));
-          const regData = csvDataGlobal.map(row => cleanMetricValue(row['Daily New Registrations']));
+          const dates = csvDataGlobal.map(row => row[dateKey]);
+          const mauData = csvDataGlobal.map(row => cleanMetricValue(row[mauKey]));
+          const dauData = csvDataGlobal.map(row => cleanMetricValue(row[dauKey]));
+          const regData = csvDataGlobal.map(row => cleanMetricValue(row[regKey]));
 
           renderInlineSparkChart('mauSparkChart', dates, mauData, '#a855f7');
           renderInlineSparkChart('dauSparkChart', dates, dauData, '#3b82f6');
@@ -328,62 +465,19 @@
     function generateDynamicSimpleInsights(latest, metrics) {
       const insightsList = document.getElementById('automated-insights-list');
       insightsList.innerHTML = "";
-
       const structure = [
-        {
-          title: "Monthly Active Users",
-          color: "text-purple-400",
-          val: metrics.mau.val,
-          yoy: metrics.mau.yoy,
-          dir: metrics.mau.dir,
-          text: `Monthly users reached <strong class="text-white">${metrics.mau.val}</strong>. This represents a YoY `
-        },
-        {
-          title: "Daily Active Users",
-          color: "text-blue-400",
-          val: metrics.dau.val,
-          yoy: metrics.dau.yoy,
-          dir: metrics.dau.dir,
-          text: `Daily active users are at <strong class="text-white">${metrics.dau.val}</strong>, mapping a YoY `
-        },
-        {
-          title: "New Signups Ingest",
-          color: "text-emerald-400",
-          val: metrics.reg.val,
-          yoy: metrics.reg.yoy,
-          dir: metrics.reg.dir,
-          text: `Daily new signups reached <strong class="text-white">${metrics.reg.val}</strong>, noting a YoY `
-        },
-        {
-          title: "Student Active Base",
-          color: "text-indigo-400",
-          val: metrics.wau.val,
-          yoy: metrics.wau.yoy,
-          dir: metrics.wau.dir,
-          text: `Verified student WAU stands at <strong class="text-white">${metrics.wau.val}</strong>. This tracks a YoY `
-        },
-        {
-          title: "Outbound Messages",
-          color: "text-cyan-400",
-          val: metrics.omv.val,
-          yoy: metrics.omv.yoy,
-          dir: metrics.omv.dir,
-          text: `Outbound messages hit <strong class="text-white">${metrics.omv.val}</strong>, showing a YoY `
-        }
+        { title: "Monthly Active Users", color: "text-purple-400", val: metrics.mau.val, yoy: metrics.mau.yoy, dir: metrics.mau.dir, text: `Monthly users reached <strong class="text-white">${metrics.mau.val}</strong>. This represents a YoY ` },
+        { title: "Daily Active Users", color: "text-blue-400", val: metrics.dau.val, yoy: metrics.dau.yoy, dir: metrics.dau.dir, text: `Daily active users are at <strong class="text-white">${metrics.dau.val}</strong>, mapping a YoY ` },
+        { title: "New Signups Ingest", color: "text-emerald-400", val: metrics.reg.val, yoy: metrics.reg.yoy, dir: metrics.reg.dir, text: `Daily new signups reached <strong class="text-white">${metrics.reg.val}</strong>, noting a YoY ` },
+        { title: "Student Active Base", color: "text-indigo-400", val: metrics.wau.val, yoy: metrics.wau.yoy, dir: metrics.wau.dir, text: `Verified student WAU stands at <strong class="text-white">${metrics.wau.val}</strong>. This tracks a YoY ` },
+        { title: "Outbound Messages", color: "text-cyan-400", val: metrics.omv.val, yoy: metrics.omv.yoy, dir: metrics.omv.dir, text: `Outbound messages hit <strong class="text-white">${metrics.omv.val}</strong>, showing a YoY ` }
       ];
-
       structure.forEach(item => {
         const div = document.createElement('div');
         div.className = "border-b border-slate-800/40 pb-2.5 last:border-b-0";
         const dirWordColor = item.dir === 'increase' ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold';
         const arrowSymbol = item.dir === 'increase' ? '▲' : '▼';
-
-        div.innerHTML = `
-          <h4 class="font-bold uppercase tracking-wider text-[10px] ${item.color} mb-0.5">${item.title}</h4>
-          <p class="text-slate-400 leading-relaxed text-[11px]">
-            ${item.text} <span class="${dirWordColor}">${item.dir} of ${arrowSymbol} ${item.yoy}</span>.
-          </p>
-        `;
+        div.innerHTML = `<h4 class="font-bold uppercase tracking-wider text-[10px] ${item.color} mb-0.5">${item.title}</h4><p class="text-slate-400 leading-relaxed text-[11px]">${item.text} <span class="${dirWordColor}">${item.dir} of ${arrowSymbol} ${item.yoy}</span>.</p>`;
         insightsList.appendChild(div);
       });
     }
@@ -392,8 +486,7 @@
       const ctx = document.getElementById(canvasId).getContext('2d');
       if (activeCharts[canvasId]) { activeCharts[canvasId].destroy(); }
       const grad = ctx.createLinearGradient(0, 0, 0, 60);
-      grad.addColorStop(0, `${colorHex}1A`);
-      grad.addColorStop(1, 'transparent');
+      grad.addColorStop(0, `${colorHex}1A`); grad.addColorStop(1, 'transparent');
       activeCharts[canvasId] = new Chart(ctx, {
         type: 'line',
         data: { labels: labels, datasets: [{ data: dataPoints, borderColor: colorHex, backgroundColor: grad, fill: true, tension: 0.35, borderWidth: 2, pointRadius: 0 }] },
@@ -407,12 +500,8 @@
           let metricKey = this.getAttribute('data-metric');
           const traceColor = this.getAttribute('data-color');
           const keys = Object.keys(csvDataGlobal[0] || {});
-          
-          if (metricKey === 'schools_with_critical_supply_v1_fallback') {
-            metricKey = keys.find(k => k.includes('groups to join_v1')) || metricKey;
-          } else if (metricKey.includes('event groups to join')) {
-            metricKey = keys.find(k => k.includes('event groups to join')) || metricKey;
-          }
+          if (metricKey === 'schools_with_critical_supply_v1_fallback') { metricKey = keys.find(k => k.includes('groups to join_v1')) || metricKey; }
+          else if (metricKey.includes('event groups to join')) { metricKey = keys.find(k => k.includes('event groups to join')) || metricKey; }
           openModal(metricKey, traceColor);
         });
       });
@@ -423,8 +512,11 @@
       document.getElementById('modal-title').innerText = `📈 Detailed Performance Trendline: ${metricKey}`;
       modal.classList.remove('hidden'); modal.classList.add('flex');
       setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('div').classList.remove('scale-95'); }, 10);
-      const dates = csvDataGlobal.map(row => row.Date);
-      const points = csvDataGlobal.map(row => cleanMetricValue(row[metricKey]));
+      const keys = Object.keys(csvDataGlobal[0] || {});
+      const actualKey = keys.find(k => k.trim() === metricKey.trim()) || metricKey;
+      const dateKey = keys.find(k => k.trim() === 'Date') || 'Date';
+      const dates = csvDataGlobal.map(row => row[dateKey]);
+      const points = csvDataGlobal.map(row => cleanMetricValue(row[actualKey]));
       if (activeCharts['modalTrendChart']) { activeCharts['modalTrendChart'].destroy(); }
       const ctx = document.getElementById('modalTrendChart').getContext('2d');
       const grad = ctx.createLinearGradient(0, 0, 0, 300);
@@ -446,7 +538,9 @@
       setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
     }
     function closeModal(event) { closeModalForce(); }
-    window.onload = initDashboard;
+    
+    // Paint historical browser records right on app boot context
+    window.onload = renderAuditLogs;
   </script>
 </body>
 </html>
