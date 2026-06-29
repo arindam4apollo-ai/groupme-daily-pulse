@@ -466,8 +466,8 @@
       const insightsList = document.getElementById('automated-insights-list');
       insightsList.innerHTML = "";
       const structure = [
-        { title: "Monthly Active Users", color: "text-purple-400", val: metrics.mau.val, yoy: metrics.mau.yoy, dir: metrics.mau.dir, text: `Monthly users reached <strong class="text-white">${metrics.mau.val}</strong>. This represents a YoY ` },
-        { title: "Daily Active Users", color: "text-blue-400", val: metrics.dau.val, yoy: metrics.dau.yoy, dir: metrics.dau.dir, text: `Daily active users are at <strong class="text-white">${metrics.dau.val}</strong>, mapping a YoY ` },
+        { title: "Daily Active Users", color: "text-purple-400", val: metrics.mau.val, yoy: metrics.mau.yoy, dir: metrics.mau.dir, text: `Daily active users are at <strong class="text-white">${metrics.mau.val}</strong>. This represents a YoY ` },
+        { title: "Monthly Active Users", color: "text-blue-400", val: metrics.dau.val, yoy: metrics.dau.yoy, dir: metrics.dau.dir, text: `Monthly users reached <strong class="text-white">${metrics.dau.val}</strong>, mapping a YoY ` },
         { title: "New Signups Ingest", color: "text-emerald-400", val: metrics.reg.val, yoy: metrics.reg.yoy, dir: metrics.reg.dir, text: `Daily new signups reached <strong class="text-white">${metrics.reg.val}</strong>, noting a YoY ` },
         { title: "Student Active Base", color: "text-indigo-400", val: metrics.wau.val, yoy: metrics.wau.yoy, dir: metrics.wau.dir, text: `Verified student WAU stands at <strong class="text-white">${metrics.wau.val}</strong>. This tracks a YoY ` },
         { title: "Outbound Messages", color: "text-cyan-400", val: metrics.omv.val, yoy: metrics.omv.yoy, dir: metrics.omv.dir, text: `Outbound messages hit <strong class="text-white">${metrics.omv.val}</strong>, showing a YoY ` }
